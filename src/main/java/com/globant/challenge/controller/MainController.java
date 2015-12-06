@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.globant.challenge.bean.Person;
+import com.globant.challenge.bean.User;
 
 @Controller
 public class MainController {
@@ -22,7 +22,7 @@ public class MainController {
 	// handles person form submit
     @RequestMapping(value="/submitLogin", method=RequestMethod.POST)
     @ResponseBody
-    public String savePerson(Person person) {
+    public String savePerson(User person) {
         //personService.save(person);
         return "Login Successful!!";
     }

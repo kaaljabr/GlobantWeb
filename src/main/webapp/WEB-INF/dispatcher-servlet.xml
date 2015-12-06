@@ -27,6 +27,33 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<mvc:resources mapping="/scss/**" location="/scss/"/>
 	<mvc:annotation-driven/>
 	
-	<!--     <mvc:resources mapping="/resources/**" location="/resources/theme/"  
-	cache-period="31556926"/> -->
+ 	 <!-- This produces a container-managed EntityManagerFactory;
+        rather than application-managed EntityManagerFactory as in case of LocalEntityManagerFactoryBean-->
+    <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <!-- This makes /META-INF/persistence.xml is no longer necessary -->
+      <property name="packagesToScan" value="com.globant.challenge.bean" />
+      <!-- JpaVendorAdapter implementation for Hibernate EntityManager.
+           Exposes Hibernate's persistence provider and EntityManager extension interface -->
+      <property name="jpaVendorAdapter">
+         <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+      </property>
+      <property name="jpaProperties">
+         <props>
+            <prop key="hibernate.hbm2ddl.auto">create</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+         </props>
+      </property>
+    </bean>
+    
+    <!-- Simple implementation of the standard JDBC DataSource interface,
+        configuring the plain old JDBC DriverManager via bean properties -->
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+      <property name="url" value="jdbc:mysql://localhost:3307/globant" />
+      <property name="username" value="root" />
+      <property name="password" value="root" />
+   </bean>
+    
+    
 </beans>
