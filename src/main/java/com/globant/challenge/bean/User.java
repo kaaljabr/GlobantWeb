@@ -2,15 +2,21 @@ package com.globant.challenge.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
 
-	@Column(name = "USERNAME")
+	
+	@Id
+    @GeneratedValue
+    private Integer id;
+	@Column(name = "username")
 	private String username;
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String password;
 
 	public String getUsername() {
