@@ -60,7 +60,7 @@
 
 	<script type="text/javascript">
 		 $(document).ready(function() {
-			var registerStatus = $.url().param('register');
+			var registerStatus = getURLParameter('register');
 			console.debug('debug me pleas '+registerStatus);
 			if(registerStatus == "success"){
 				$('#responseMsg').text("User successfully created!!");
@@ -101,7 +101,18 @@
 				valid = false;
 			}
 			return valid;
-		} 
+		}
+		
+		function getURLParameter(sParam){
+		   var sPageURL = window.location.search.substring(1);
+		    var sURLVariables = sPageURL.split('&');
+		    for (var i = 0; i < sURLVariables.length; i++){
+		        var sParameterName = sURLVariables[i].split('=');
+		        if (sParameterName[0] == sParam){
+		            return sParameterName[1];
+		        }
+		    }
+	    }
 	</script>
 
 
