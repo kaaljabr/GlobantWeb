@@ -30,6 +30,28 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 	<mvc:resources mapping="/scss/**" location="/scss/"/>
 	<mvc:annotation-driven/>
 	
+	
+	<!-- <bean id="loginValidator" class="com.globant.challenge.validator.LoginValidator" /> -->
+	 
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basename" value="classpath:messages" />
+    	<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
+	 
+	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+	    <property name="paramName" value="lang" />
+	</bean>
+	 
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+	    <property name="defaultLocale" value="en"/>
+	</bean>
+	 
+	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	    <property name="interceptors">
+	        <ref bean="localeChangeInterceptor" />
+	    </property>
+	</bean>
+	
  	 <!-- This produces a container-managed EntityManagerFactory;
         rather than application-managed EntityManagerFactory as in case of LocalEntityManagerFactoryBean-->
     <bean id="entityManagerFactoryBean" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -53,7 +75,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
         configuring the plain old JDBC DriverManager via bean properties -->
    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-      <property name="url" value="jdbc:mysql://localhost:3306/globant" />
+      <property name="url" value="jdbc:mysql://localhost:3307/globant" />
       <property name="username" value="root" />
       <property name="password" value="root" />
    </bean>

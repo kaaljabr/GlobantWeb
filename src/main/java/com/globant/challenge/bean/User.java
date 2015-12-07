@@ -10,14 +10,25 @@ import javax.persistence.Table;
 @Table(name = "users")
 public class User {
 
-	
 	@Id
-    @GeneratedValue
-    private Integer id;
+	@GeneratedValue
+	private Integer id;
 	@Column(name = "username")
 	private String username;
 	@Column(name = "password")
 	private String password;
+	@Column(name = "city")
+	private String city;
+	@Column(name = "profession")
+	private String profession;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -33,6 +44,22 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
 	}
 
 }
