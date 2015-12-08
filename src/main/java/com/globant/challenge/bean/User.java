@@ -28,10 +28,10 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	@Column(name = "username", length = 255)
+	@Column(name = "username")
 	@Size(min = 6, max = 12, message = "username.min.max")
 	private String username;
-	@Column(name = "password", length = 255)
+	@Column(name = "password")
 	@Size(min = 6, message = "password.min.max")
 	private String password;
 	@Column(name = "city")
