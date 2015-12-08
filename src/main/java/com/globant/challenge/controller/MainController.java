@@ -2,6 +2,8 @@ package com.globant.challenge.controller;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,9 @@ public class MainController {
 
 	@Autowired
 	protected MessageSource resource;
+	
+	@Autowired
+	User user;
 
 	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
 	public ModelAndView welcome() {
@@ -52,12 +57,13 @@ public class MainController {
 
 	// handles person form submit
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(User user, BindingResult result) {
+	public String login(User user, BindingResult result, HttpSession session) {
 		loginValidator.validate(user, result);
 		if (result.hasErrors()) {
 			log.warn("validation fails");
 			return "loginPage";
 		} else {
+			this.user = user;
 			log.warn("validation passed");
 			return "redirect:welcome";
 		}

@@ -6,8 +6,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(name = "users")
+@Component
+@Scope(value="session", proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class User {
 
 	@Id
