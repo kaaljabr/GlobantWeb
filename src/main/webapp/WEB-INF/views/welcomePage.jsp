@@ -9,14 +9,9 @@
 </head>
 <body>
 	<center>
-		<h2>Welcome</h2>
-		<c:out value="${sessionScope['scopedTarget.user'].password}"/>
-		<h2>
-		
-						 <c:forEach items="${sessionScope}" var="entry">
-							    ${entry.key} = ${entry.value}<br>
-							</c:forEach>
-		</h2>
-		</center>
+		<h2>Welcome ${username} :)</h2>		
+		<a href='${pageContext.request.contextPath}/login' >Go back to Login page</a>		
+	</center>
+	
 </body>
 </html>

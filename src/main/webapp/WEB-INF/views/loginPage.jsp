@@ -27,17 +27,16 @@
 			<div class="tooltip">Click Me</div>
 		</div>
 		<div class="form">
-			<h2>Login to your account</h2>
-			<%-- <form id="loginForm"> --%>
+			<h2>Login to your account</h2>			
 			<form:form id="loginForm" modelAttribute="user" action="login">
 				<form:errors path="username" cssClass="error"/>
 				<input type="text" placeholder="Username" name="username" id="username" />				
 				<form:errors path="password" cssClass="error"/> 
 				<input type="password" placeholder="Password" name="password" id="password" />				
 				<input class="loginButton" type="submit" value="Login" />
-			</form:form>				
-			<%-- </form> --%>
+			</form:form>
 		</div>
+		<!-- Here a pure HTML form is used with ajax post request is sent to the controller -->
 		 <div class="form">
 		    <h2>Create an account</h2>
 		    <form id="registerForm">
@@ -49,10 +48,7 @@
 		    </form>
 		  </div>
 		<div class="cta">
-			<div id="responseMsg" class="error"></div>
-			<!-- <div class="error hide" id="usernameError">Username cannot be empty</div>
-			<div class="error hide" id="passwordError">Password cannot be empty</div> -->
-	
+			<div id="responseMsg" class="error">${errorMsg}</div>	
 		</div>		
 	</div>
 	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
@@ -60,27 +56,20 @@
 
 	<script type="text/javascript">
 		 $(document).ready(function() {
-			var registerStatus = getURLParameter('register');
-			console.debug('debug me pleas '+registerStatus);
-			if(registerStatus == "success"){
-				$('#responseMsg').text("User successfully created!!");
-				$('#responseMsg').show();	
-			}
 			// handle registration as JSON and post to the controller
 			$('#registerForm').submit(function(e) {
-				//validate for required fields
-				/* if (!validateLoginFrom())
-				return false; */
-				// if validation passed, will pass the form data using the jQuery serialize function
+				 //clear error msgs whenever a form is submitted
+				clearErrorMsgs();
 				$.post('${pageContext.request.contextPath}/createUser',$(this).serialize(),function(response) {
 					if(response != "success"){
 						$('#responseMsg').append(response);
 						$('#responseMsg').show();	
 					}else{						
-						window.location.replace("${pageContext.request.contextPath}/login?register=success");
+						window.location.replace("${pageContext.request.contextPath}/welcome");
 					}					
 				});
-			e.preventDefault(); // prevent actual form submit and page reload
+			// prevent actual form submit and page reload
+			e.preventDefault(); 
 			});			
 		});
 
@@ -101,18 +90,7 @@
 				valid = false;
 			}
 			return valid;
-		}
-		
-		function getURLParameter(sParam){
-		   var sPageURL = window.location.search.substring(1);
-		    var sURLVariables = sPageURL.split('&');
-		    for (var i = 0; i < sURLVariables.length; i++){
-		        var sParameterName = sURLVariables[i].split('=');
-		        if (sParameterName[0] == sParam){
-		            return sParameterName[1];
-		        }
-		    }
-	    }
+		}		
 	</script>
 
 
