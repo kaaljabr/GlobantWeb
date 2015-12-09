@@ -15,10 +15,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 @NamedQueries({ @NamedQuery(name = "Users.findAll", query = "SELECT u FROM User u"), @NamedQuery(name = "Users.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
-		@NamedQuery(name = "Users.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username and u.password = :password") })
+		@NamedQuery(name = "Users.findByUsernameAndPassword", query = "SELECT u FROM User u WHERE u.username = :username and u.password = :password"),
+		@NamedQuery(name = "Users.findUsersByProfession", query = "SELECT u FROM User u WHERE u.profession = :profession ORDER BY u.state asc") })
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class User implements Serializable {
@@ -29,14 +32,15 @@ public class User implements Serializable {
 	@GeneratedValue
 	private Integer id;
 	@Column(name = "username")
-	@Size(min = 6, max = 12, message = "username.min.max")
+	@Size(min = 4, max = 12, message = "username.min.max")
 	private String username;
 	@Column(name = "password")
 	@Size(min = 6, message = "password.min.max")
+	@JsonIgnore
 	private String password;
-	@Column(name = "city")
-	@Size(min = 1, message = "city.required")
-	private String city;
+	@Column(name = "state")
+	@Size(min = 1, message = "state.required")
+	private String state;
 	@Column(name = "profession")
 	@Size(min = 1, message = "profession.required")
 	private String profession;
@@ -65,12 +69,12 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getCity() {
-		return city;
+	public String getState() {
+		return state;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
+	public void setState(String state) {
+		this.state = state;
 	}
 
 	public String getProfession() {

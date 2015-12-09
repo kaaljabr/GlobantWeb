@@ -1,5 +1,7 @@
 package com.globant.challenge.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,12 +45,12 @@ public class MainController {
 	@Autowired
 	User user;
 
-	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
-	public ModelAndView welcome() {
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public ModelAndView getLandingView() {
 		if (user.getUsername() == null) {
-			new ModelAndView("redirect:login");
+			return new ModelAndView("redirect:login");
 		}
-		ModelAndView mv = new ModelAndView("welcomePage");
+		ModelAndView mv = new ModelAndView("landingView");
 		mv.addObject("username", user.getUsername());
 		return mv;
 	}
@@ -76,6 +79,7 @@ public class MainController {
 					return mv;
 				}
 			} catch (ServiceException | UtilsException e) {
+				log.error("SYSTEM ERROR occurred", e);
 				ModelAndView mv = new ModelAndView("loginPage");
 				mv.addObject("errorMsg", resource.getMessage(Constants.SERVICE_ERROR_OCCURRED, null, Locale.US));
 				return mv;
@@ -83,7 +87,7 @@ public class MainController {
 			// save successful logged in user in auto wired user session scoped
 			this.user = user;
 			log.warn("validation passed");
-			return new ModelAndView("redirect:welcome");
+			return new ModelAndView("redirect:main");
 		}
 	}
 
@@ -101,18 +105,38 @@ public class MainController {
 		} else {
 
 			try {
-				boolean usernameAvailable = service.isUsernameAvailable(user.getUsername());
-				if (!usernameAvailable) {
+				boolean usernameTaken = service.isUsernameTaken(user.getUsername());
+				if (usernameTaken) {
 					return resource.getMessage(Constants.USERNAME_TAKEN, null, Locale.US);
 				}
+				// encrypting the password before saving the user
 				user.setPassword(PasswordManager.getInstance().encrypt(user.getPassword()));
+				user.setUsername(user.getUsername().toLowerCase());
+				// save user to the DB
 				service.createUser(user);
 			} catch (ServiceException | UtilsException e) {
+				log.error("SYSTEM ERROR occurred", e);
 				return resource.getMessage(Constants.SERVICE_ERROR_OCCURRED, null, Locale.US);
 			}
 			this.user = user;
 			return "success";
 		}
+	}
+
+	@RequestMapping(value = "/usersByProfession", method = RequestMethod.GET)
+	public ModelAndView getUsersByProfession(@RequestParam("profession") String profession) {
+		if (user.getUsername() == null) {
+			return new ModelAndView("redirect:login");
+		}
+		List<User> users = new ArrayList<User>();
+		try {
+			users = service.getUsersByProfession(profession);
+		} catch (ServiceException e) {
+			log.error("SYSTEM ERROR occurred", e);
+		}
+		ModelAndView mv = new ModelAndView("usersLookupView");
+		mv.addObject("users", users);
+		return mv;
 	}
 
 	@RequestMapping(value = "/createTestUser", method = RequestMethod.GET)

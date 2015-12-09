@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Globant Web Login</title>
+<title>Globant Web | Login</title>
 <link href="<c:url value="/css/reset.css" />" rel="stylesheet">
 <link rel='stylesheet prefetch'
 	href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
@@ -24,7 +24,7 @@
 	<div class="module form-module">
 		<div class="toggle">
 			<i class="fa fa-times fa-pencil"></i>
-			<div class="tooltip">Click Me</div>
+			<div class="tooltip">Register</div>
 		</div>
 		<div class="form">
 			<h2>Login to your account</h2>			
@@ -42,7 +42,7 @@
 		    <form id="registerForm">
 		      <input type="text" placeholder="Username" name="username" id="username"/>
 		      <input type="password" placeholder="Password" name="password" id="password"/>
-		      <input type="text" placeholder="City" name="city" id="city"/>
+		      <input type="text" placeholder="State" name="state" id="state"/>
 		      <input type="text" placeholder="Profession" name="profession" id="profession"/>
 		      <input class="loginButton" type="submit" value="Regsiter" />
 		    </form>

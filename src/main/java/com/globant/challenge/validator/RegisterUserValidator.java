@@ -19,7 +19,7 @@ public class RegisterUserValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmpty(errors, "username", "username.required");
 		ValidationUtils.rejectIfEmpty(errors, "password", "password.required");
-		ValidationUtils.rejectIfEmpty(errors, "city", "city.required");
+		ValidationUtils.rejectIfEmpty(errors, "state", "state.required");
 		ValidationUtils.rejectIfEmpty(errors, "profession", "profession.required");
 		// do "complex" validation here
 	}

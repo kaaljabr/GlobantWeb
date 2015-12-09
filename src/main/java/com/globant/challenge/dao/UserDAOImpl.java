@@ -1,11 +1,11 @@
 package com.globant.challenge.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
@@ -43,8 +43,8 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User getUserByParams(Map<String, Object> parameters, String queryString) throws NoResultException, DaoException {
-		User user = null;
+	public List<User> getUsersByParams(Map<String, Object> parameters, String queryString) throws DaoException {
+		List<User> users = new ArrayList<User>();
 		try {
 			Query query = manager.createNamedQuery(queryString, User.class);
 			// Check if we have some parameters defined
@@ -55,12 +55,16 @@ public class UserDAOImpl implements UserDAO {
 				}
 			}
 			// Execute query and return result
-			user = (User) query.getSingleResult();
+			users = query.getResultList();
 		} catch (IllegalArgumentException | QueryTimeoutException e) {
 			log.error("An error occured when calling getUserByUsername", e);
 			throw new DaoException("getUserByUsername DB error occurred", e);
 		}
-		return user;
+		return users;
+	}
+
+	public Map<String, Object> checkDBStatus() {
+		return manager.getEntityManagerFactory().getProperties();
 	}
 
 }

@@ -5,13 +5,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Spring 4 MVC -HelloWorld</title>
+<title>Globant Web</title>
 </head>
 <body>
 	<center>
 		<h2>Welcome ${username} :)</h2>		
-		<a href='${pageContext.request.contextPath}/login' >Go back to Login page</a>		
+		<div>
+		<a href='${pageContext.request.contextPath}/login' >Go back to Login page</a>
+		</div>
+		<div>
+		<a href='${pageContext.request.contextPath}/usersByProfession?profession=accountant' >Show users filtered by PROFESSION and grouped by STATE</a>
+		</div>
+			
 	</center>
-	
 </body>
 </html>
