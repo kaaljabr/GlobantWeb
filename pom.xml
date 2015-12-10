@@ -101,6 +101,13 @@
 	        <artifactId>jackson-core</artifactId>
 	        <version>2.6.4</version>
 	</dependency>
+	<!-- DOZER MAPPING to map beans for different versioning rest api -->
+	<dependency>
+		<groupId>net.sf.dozer</groupId>
+		<artifactId>dozer</artifactId>
+		<version>5.5.1</version>
+	</dependency>
+
 	
   </dependencies>
   

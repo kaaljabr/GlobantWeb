@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("username", username.toLowerCase());
 			List<User> users = dao.getUsersByParams(parameters, "Users.findByUsername");
-			if (users.isEmpty()) {
+			if (!users.isEmpty()) {
 				log.debug("username: {} is taken", username);
 				return true;
 			}

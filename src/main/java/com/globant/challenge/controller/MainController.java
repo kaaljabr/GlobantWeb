@@ -91,7 +91,7 @@ public class MainController {
 		}
 	}
 
-	@RequestMapping(value = "/createUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
 	public String createUser(@Valid User user, BindingResult result) {
 		if (result.hasErrors()) {

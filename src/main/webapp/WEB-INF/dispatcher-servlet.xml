@@ -70,7 +70,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
       </property>
       <property name="jpaProperties">
          <props>
-            <prop key="hibernate.hbm2ddl.auto">validate</prop>
+            <prop key="hibernate.hbm2ddl.auto">create</prop>
             <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
          </props>
       </property>
@@ -80,7 +80,7 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd">
         configuring the plain old JDBC DriverManager via bean properties -->
    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-      <property name="url" value="jdbc:mysql://localhost:3307/globant" />
+      <property name="url" value="jdbc:mysql://localhost:3306/globant" />
       <property name="username" value="root" />
       <property name="password" value="root" />
    </bean>

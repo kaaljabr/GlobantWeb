@@ -60,12 +60,12 @@
 			$('#registerForm').submit(function(e) {
 				 //clear error msgs whenever a form is submitted
 				clearErrorMsgs();
-				$.post('${pageContext.request.contextPath}/createUser',$(this).serialize(),function(response) {
+				$.post('${pageContext.request.contextPath}/register',$(this).serialize(),function(response) {
 					if(response != "success"){
 						$('#responseMsg').append(response);
 						$('#responseMsg').show();	
 					}else{						
-						window.location.replace("${pageContext.request.contextPath}/welcome");
+						window.location.replace("${pageContext.request.contextPath}/main");
 					}					
 				});
 			// prevent actual form submit and page reload
