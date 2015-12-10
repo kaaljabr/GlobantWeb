@@ -18,7 +18,7 @@ public interface UserService {
 
 	public List<User> findAllUsers() throws ServiceException;
 
-	public List<User> findAllUsers(int offset, int limit) throws ServiceException;
+	public List<User> findAllUsers(int page, int limit) throws ServiceException;
 
 	public Map<String, Object> checkDBStatus();
 
