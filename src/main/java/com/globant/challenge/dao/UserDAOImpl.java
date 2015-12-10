@@ -38,7 +38,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
+		/*EntityManager manager = getEntityManager(); 
+		Query q = manager.createNativeQuery("BEGIN "+sqlScript + "END;");
+		q.executeUpdate();*/
 		return null;
 	}
 
