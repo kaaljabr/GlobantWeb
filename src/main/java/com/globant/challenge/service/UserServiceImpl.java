@@ -29,14 +29,38 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createUser(User user) {
-		dao.createUser(user);
+	public void createUser(User user) throws ServiceException {
+		try {
+			dao.createUser(user);
+		} catch (DaoException e) {
+			log.error("An error occured when calling createUser", e);
+			throw new ServiceException("Error creating a user", e);
+		}
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<User> findAllUsers() throws ServiceException {
+		List<User> users = new ArrayList<User>();
+		try {
+			users = dao.findUsers(null, Constants.USERS_FINDALL);
+		} catch (DaoException e) {
+			log.error("DAO ERROR occurred !!!!", e);
+			throw new ServiceException("getAllUsers DAO exception occured", e);
+		}
+		return users;
+	}
+
+	@Override
+	public List<User> findAllUsers(int page, int limit) throws ServiceException {
+		List<User> users = new ArrayList<User>();
+		try {
+			int offset = (page - 1) * limit;
+			users = dao.findUsers(null, Constants.USERS_FINDALL, offset, limit);
+		} catch (DaoException e) {
+			log.error("DAO ERROR occurred !!!!", e);
+			throw new ServiceException("getAllUsers DAO exception occured", e);
+		}
+		return users;
 	}
 
 	@Override
@@ -44,7 +68,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("username", username.toLowerCase());
-			List<User> users = dao.getUsersByParams(parameters, "Users.findByUsername");
+			List<User> users = dao.findUsers(parameters, "Users.findByUsername");
 			if (!users.isEmpty()) {
 				log.debug("username: {} is taken", username);
 				return true;
@@ -62,7 +86,7 @@ public class UserServiceImpl implements UserService {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("username", username.toLowerCase());
 			parameters.put("password", password);
-			List<User> users = dao.getUsersByParams(parameters, Constants.USERS_FIND_BY_USERNAME_AND_PASSWORD);
+			List<User> users = dao.findUsers(parameters, Constants.USERS_FIND_BY_USERNAME_AND_PASSWORD);
 			if (!users.isEmpty()) {
 				log.debug("username: {} log in success", username);
 				return true;
@@ -70,7 +94,7 @@ public class UserServiceImpl implements UserService {
 
 		} catch (DaoException e) {
 			log.error("DAO ERROR occurred !!!!", e);
-			throw new ServiceException("isUsernameAvailable DAO exception occured", e);
+			throw new ServiceException("checkLogin DAO exception occured", e);
 		}
 		return false;
 	}
@@ -81,10 +105,10 @@ public class UserServiceImpl implements UserService {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("profession", profession.toLowerCase());
 		try {
-			users = dao.getUsersByParams(parameters, Constants.USERS_FIND_USERS_BY_PROFESSION);
+			users = dao.findUsers(parameters, Constants.USERS_FIND_USERS_BY_PROFESSION);
 		} catch (DaoException e) {
 			log.error("DAO ERROR occurred !!!!", e);
-			throw new ServiceException("isUsernameAvailable DAO exception occured", e);
+			throw new ServiceException("getUsersByProfession DAO exception occured", e);
 		}
 		return users;
 	}
@@ -92,6 +116,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Map<String, Object> checkDBStatus() {
 		return dao.checkDBStatus();
+	}
+
+	@Override
+	public void dumpUsers() throws ServiceException {
+		try {
+			dao.dumpUsers();
+		} catch (DaoException e) {
+			throw new ServiceException("Dumping users failed", e);
+		}
+
 	}
 
 }

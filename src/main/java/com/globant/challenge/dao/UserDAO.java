@@ -10,12 +10,14 @@ import com.globant.challenge.exception.DaoException;
 
 public interface UserDAO {
 
-	public List<User> getUsersByParams(Map<String, Object> parameters, String queryString) throws NoResultException, DaoException;
+	public List<User> findUsers(Map<String, Object> parameters, String queryString) throws NoResultException, DaoException;
+
+	public List<User> findUsers(Map<String, Object> parameters, String queryString, int offset, int limit) throws NoResultException, DaoException;
 
 	public Map<String, Object> checkDBStatus();
 
-	public void createUser(User user);
+	public void dumpUsers() throws DaoException;
 
-	public List<User> getAllUsers();
+	public void createUser(User user) throws DaoException;
 
 }

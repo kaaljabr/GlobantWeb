@@ -14,10 +14,14 @@ public interface UserService {
 
 	public List<User> getUsersByProfession(String profession) throws ServiceException;
 
-	public void createUser(User user);
+	public void createUser(User user) throws ServiceException;
 
-	public List<User> getAllUsers();
+	public List<User> findAllUsers() throws ServiceException;
+
+	public List<User> findAllUsers(int offset, int limit) throws ServiceException;
 
 	public Map<String, Object> checkDBStatus();
+
+	public void dumpUsers() throws ServiceException;
 
 }

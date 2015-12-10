@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.QueryTimeoutException;
@@ -17,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.globant.challenge.bean.User;
 import com.globant.challenge.exception.DaoException;
+import com.globant.challenge.utils.Constants;
+import com.globant.challenge.utils.PropertiesManager;
 
 @Repository
 @Transactional
@@ -32,20 +35,18 @@ public class UserDAOImpl implements UserDAO {
 	private EntityManager manager;
 
 	@Override
-	public void createUser(User user) {
-		manager.persist(user);
+	public void createUser(User user) throws DaoException {
+		try {
+			manager.persist(user);
+		} catch (Exception e) {
+			log.error("An error occured when calling createUser", e);
+			throw new DaoException(e);
+		}
+
 	}
 
 	@Override
-	public List<User> getAllUsers() {
-		/*EntityManager manager = getEntityManager(); 
-		Query q = manager.createNativeQuery("BEGIN "+sqlScript + "END;");
-		q.executeUpdate();*/
-		return null;
-	}
-
-	@Override
-	public List<User> getUsersByParams(Map<String, Object> parameters, String queryString) throws DaoException {
+	public List<User> findUsers(Map<String, Object> parameters, String queryString) throws DaoException {
 		List<User> users = new ArrayList<User>();
 		try {
 			Query query = manager.createNamedQuery(queryString, User.class);
@@ -60,13 +61,47 @@ public class UserDAOImpl implements UserDAO {
 			users = query.getResultList();
 		} catch (IllegalArgumentException | QueryTimeoutException e) {
 			log.error("An error occured when calling getUserByUsername", e);
-			throw new DaoException("getUserByUsername DB error occurred", e);
+			throw new DaoException(e);
 		}
 		return users;
 	}
 
+	@Override
+	public List<User> findUsers(Map<String, Object> parameters, String queryString, int offset, int limit) throws NoResultException, DaoException {
+		List<User> users = new ArrayList<User>();
+		try {
+			Query query = manager.createNamedQuery(queryString, User.class);
+			// Check if we have some parameters defined
+			if (parameters != null) {
+				for (Entry<String, Object> entry : parameters.entrySet()) {
+					// Inject the parameter to the query
+					query.setParameter(entry.getKey(), entry.getValue());
+				}
+			}
+			// Execute query and return result here set the offset and limit
+			users = query.setFirstResult(offset).setMaxResults(limit).getResultList();
+		} catch (IllegalArgumentException | QueryTimeoutException e) {
+			log.error("An error occured when calling getUserByUsername", e);
+			throw new DaoException(e);
+		}
+		return users;
+	}
+
+	@Override
 	public Map<String, Object> checkDBStatus() {
 		return manager.getEntityManagerFactory().getProperties();
+	}
+
+	@Override
+	public void dumpUsers() throws DaoException {
+		try {
+			// execute a query from config.properties.
+			Query q = manager.createNativeQuery(PropertiesManager.getInstance().getProperty(Constants.USERS_DB_DUMP));
+			q.executeUpdate();
+		} catch (Exception e) {
+			log.error("DB ERROR dumpUsers", e);
+			throw new DaoException(e);
+		}
 	}
 
 }

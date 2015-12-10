@@ -139,21 +139,4 @@ public class MainController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/createTestUser", method = RequestMethod.GET)
-	@ResponseBody
-	public String createTestUser() {
-		User user = new User();
-		user.setUsername("test");
-		try {
-			user.setPassword(PasswordManager.getInstance().encrypt("password"));
-		} catch (UtilsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		service.createUser(user);
-
-		return "success";
-	}
-
 }
