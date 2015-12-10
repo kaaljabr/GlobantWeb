@@ -54,8 +54,7 @@ public class RestServiceController {
 	 */
 	@RequestMapping(value = "v1/users", method = RequestMethod.GET)
 	public ResponseEntity<List<UserV1>> getUsersByProfessionV1(@RequestParam("profession") String profession) {
-		Mapper mapper = new DozerBeanMapper();
-		
+		Mapper mapper = new DozerBeanMapper();		
 		List<UserV1> usersV1 = new ArrayList<UserV1>();
 		List<User> users = new ArrayList<User>();
 		try {
