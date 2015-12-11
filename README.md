@@ -15,14 +15,19 @@
 #### Database used:
 * MySQL DB (version 5.6)
 
-Check out the wiki page for more details on building and running this project
-[Wiki](https://github.com/kaaljabr/GlobantWeb/wiki)
+Check out the wiki page for more details on building and running this project [Wiki](https://github.com/kaaljabr/GlobantWeb/wiki)
 
 #### Here are wiki broken down into different section
-[Import in Eclipse](https://github.com/kaaljabr/GlobantWeb/wiki/Import-the-project-into-Eclipse)
-[Build in Maven](https://github.com/kaaljabr/GlobantWeb/wiki/Build-the-project-in-Maven)
-[Run on Server](https://github.com/kaaljabr/GlobantWeb/wiki/Run-on-Tomcat-Server)
-[Web Application View](https://github.com/kaaljabr/GlobantWeb/wiki/Check-the-web-application-in-browser)
-[Rest API](https://github.com/kaaljabr/GlobantWeb/wiki/Check-the-REST-API)
+[Import in Eclipse](https://github.com/kaaljabr/GlobantWeb/wiki/Import-the-project-into-Eclipse)  
+
+[Build in Maven](https://github.com/kaaljabr/GlobantWeb/wiki/Build-the-project-in-Maven)  
+
+[Run on Server](https://github.com/kaaljabr/GlobantWeb/wiki/Run-on-Tomcat-Server)  
+
+[Web Application View](https://github.com/kaaljabr/GlobantWeb/wiki/Check-the-web-application-in-browser)  
+
+[Rest API](https://github.com/kaaljabr/GlobantWeb/wiki/Check-the-REST-API)  
+
+
 
 
