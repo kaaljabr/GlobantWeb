@@ -13,5 +13,5 @@
 #### Database used:
 * MySQL DB (version 5.6)
 
-Check out the wiki page for more details on runnig this project
-"Wiki":https://github.com/kaaljabr/GlobantWeb/wiki
+Check out the wiki page for more details on building and running this project
+[Wiki](https://github.com/kaaljabr/GlobantWeb/wiki)
