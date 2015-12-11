@@ -2,6 +2,7 @@
 ### Globant Code Challenge
 
 #### JAVA/J2EE Technologies used in this project:
+* Java JDK 1.8
 * Maven as a build automation tool
 * Spring Web MVC (version 4.2.3)
 * JSP for views
