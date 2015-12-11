@@ -132,6 +132,7 @@
 		<groupId>org.apache.tomcat</groupId>
 		<artifactId>tomcat-util</artifactId>
 		<version>8.0.0-RC1</version>
+		<scope>provided</scope>
 	</dependency>
 	<dependency>
 	   <groupId>javax.el</groupId>

@@ -28,6 +28,17 @@ public class User implements Serializable {
 
 	private static final long serialVersionUID = 2005866398776663100L;
 
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(String username, String password, String profession, String state) {
+		this.username = username;
+		this.password = password;
+		this.profession = profession;
+		this.state = state;
+	}
+
 	@Id
 	@GeneratedValue
 	private Integer id;

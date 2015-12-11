@@ -14,7 +14,7 @@
 		<a href='${pageContext.request.contextPath}/login' >Go back to Login page</a>
 		</div>
 		<div>
-		<a href='${pageContext.request.contextPath}/usersByProfession?profession=accountant' >Show users filtered by PROFESSION and grouped by STATE</a>
+		<a href='${pageContext.request.contextPath}/usersByProfession?profession=electrical engineer' >Show users filtered by PROFESSION and grouped by STATE</a>
 		</div>
 			
 	</center>
