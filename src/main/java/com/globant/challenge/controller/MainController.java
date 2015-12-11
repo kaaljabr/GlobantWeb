@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -45,6 +44,11 @@ public class MainController {
 	@Autowired
 	User user;
 
+	/**
+	 *
+	 * @return Return the main page the ladning page if user is logged in or just registererd, if
+	 *         not it will redirect to the login page
+	 */
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public ModelAndView getLandingView() {
 		if (user.getUsername() == null) {
@@ -55,18 +59,31 @@ public class MainController {
 		return mv;
 	}
 
+	/**
+	 *
+	 * @return this returns the log in page
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login() {
-		ModelAndView mv = new ModelAndView("loginPage");
+		ModelAndView mv = new ModelAndView("loginView");
 		return mv;
 	}
 
+	/**
+	 *
+	 * @param user
+	 *            JSON payload submitted using form submit with action attribute from the front end.
+	 * @param result
+	 *            this is used to validate login data
+	 *
+	 * @return next view after a successful log in or the login page again with error messages
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(User user, BindingResult result, HttpSession session) {
+	public ModelAndView login(User user, BindingResult result) {
 		loginValidator.validate(user, result);
 		if (result.hasErrors()) {
 			log.warn("validation fails");
-			return new ModelAndView("loginPage");
+			return new ModelAndView("loginView");
 		} else {
 			try {
 				user.setPassword(PasswordManager.getInstance().encrypt(user.getPassword()));
@@ -74,13 +91,13 @@ public class MainController {
 				// check if login fails return an error message
 				if (!success) {
 					log.warn("Log in fails");
-					ModelAndView mv = new ModelAndView("loginPage");
+					ModelAndView mv = new ModelAndView("loginView");
 					mv.addObject("errorMsg", resource.getMessage(Constants.LOGIN_FAILED, null, Locale.US));
 					return mv;
 				}
 			} catch (ServiceException | UtilsException e) {
 				log.error("SYSTEM ERROR occurred", e);
-				ModelAndView mv = new ModelAndView("loginPage");
+				ModelAndView mv = new ModelAndView("loginView");
 				mv.addObject("errorMsg", resource.getMessage(Constants.SERVICE_ERROR_OCCURRED, null, Locale.US));
 				return mv;
 			}
@@ -91,6 +108,15 @@ public class MainController {
 		}
 	}
 
+	/**
+	 *
+	 * @param user
+	 *            JSON payload submitted by an AJAX request to this endpoint
+	 * @param result
+	 *            this is used to validate login data
+	 *
+	 * @return a response body with success string if user passes validation
+	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
 	public String createUser(@Valid User user, BindingResult result) {
@@ -123,6 +149,13 @@ public class MainController {
 		}
 	}
 
+	/**
+	 *
+	 * @param profession
+	 *            query string passed with url to filter users based on their profession and sorted
+	 *            by state property
+	 * @return a view usersLookupView.jsp
+	 */
 	@RequestMapping(value = "/usersByProfession", method = RequestMethod.GET)
 	public ModelAndView getUsersByProfession(@RequestParam("profession") String profession) {
 		if (user.getUsername() == null) {

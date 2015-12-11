@@ -17,11 +17,9 @@ public class LoginValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		User user = (User) target;
+		// check if username or password are empty
 		ValidationUtils.rejectIfEmpty(errors, "username", "username.required");
 		ValidationUtils.rejectIfEmpty(errors, "password", "password.required");
-		// do "complex" validation here
-
 	}
 
 }

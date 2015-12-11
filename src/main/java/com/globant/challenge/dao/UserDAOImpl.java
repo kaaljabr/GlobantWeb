@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
 	private static Logger log = LoggerFactory.getLogger(UserDAOImpl.class);
 
 	public UserDAOImpl() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@PersistenceContext
@@ -37,6 +37,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void createUser(User user) throws DaoException {
 		try {
+			// persist the user into the DB
 			manager.persist(user);
 		} catch (Exception e) {
 			log.error("An error occured when calling createUser", e);
@@ -93,9 +94,10 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void dumpUsers() throws DaoException {
+	public void executeNativeQuery(String nativeQuery) throws DaoException {
 		try {
-			// execute a query from config.properties.
+			// execute a query from config.properties. current SQL query will insert 11 users into
+			// users table
 			Query q = manager.createNativeQuery(PropertiesManager.getInstance().getProperty(Constants.USERS_DB_DUMP));
 			q.executeUpdate();
 		} catch (Exception e) {

@@ -27,8 +27,8 @@ public class InitBean implements InitializingBean {
 			List<User> users = userService.findAllUsers();
 			// check if USERS table has content
 			if (users.isEmpty()) {
-				// dump DB USERS table with data from config.properties
-				userService.dumpUsers();
+				// dump DB USERS table with data from config.properties insert query
+				userService.dumpUsers(PropertiesManager.getInstance().getProperty(Constants.USERS_DB_DUMP));
 			}
 		} catch (ServiceException e) {
 			log.error("Dumping users failed", e);
