@@ -59,9 +59,9 @@ Like when user wants to register a user you click on a tooltip called register w
 
 
 ### Posting JSON payload
-When user logs in to the system the data is sent to the controller by posting the form data as in action post with username and password populated in User bean. (Refreshes the page in case of errors)
-But in case of user registration JQuery ajax post is used to submit the user registration form data as JSON payload to the controller endpoint register method.  (Does not refresh the page in case of errors)
-* I used two ways to show the difference between the two different scenarios 
+* When user logs in to the system the data is sent to the controller by posting the form data as in action post with username and password populated in User bean. (Refreshes the page in case of errors)
+* But in case of user registration JQuery ajax post is used to submit the user registration form data as JSON payload to the controller endpoint register method.  (Does not refresh the page in case of errors)
+>I used two ways to show the difference between the two different scenarios 
 
 
 ### Validation 
