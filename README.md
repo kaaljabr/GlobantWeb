@@ -29,5 +29,50 @@ Check out the wiki page for more details on building and running this project [W
 [Rest API](https://github.com/kaaljabr/GlobantWeb/wiki/Check-the-REST-API)  
 
 
+### WHy Spring?  
+
+* Spring is a lightweight J2EE framework, Easy to develop and configure, powerful, straight forward. 
+* Clear separation of roles like controllers, validators, model object, view resolvers and others.
+* Easy to autowire components and give dependency to clients.
+* Great integration with Hibernate JPA for accessing the persistent layer.
+* JSP and tag libraries where it is easy to create html dynamically and bind form data.
+* View resolvers and flexibility to return response and render views.
+* Beans life cycle is scoped in a HTTP request or session. 
+
+### Why hibernate/JPA?
+
+* Since it is Object/Relational Mapping (ORM) framework, avoids low level JDBC and SQL code. 
+* Easy to use and do both basic and complex queries.
+* Hibernate supports lazy initialization, numerous fetching strategies and optimistic locking with automatic versioning and time stamping.
+* Hibernate is reliable and stable.
+* Easy to change your database, by changinf dialect.
+
+
+### JUnit
+
+I used JUnit to test my service layer methods. And make sure they return the expected result or throw the expected exception. I used autowiring to inject the services I would like to test. Service layer calls DAO layer to do the persistent work.
+
+### JSP, JQuery and CSS
+
+For the front end part JSP views are used to display content. Javascript is used as well with JQuery library to handle some front end interaction and rendering.  
+Like when user wants to register a user you click on a tooltip called register which in turn calls toggle function to display the user registration form. If you click it again it toggles back to the login form.
+
+
+### Posting JSON payload
+When user logs in to the system the data is sent to the controller by posting the form data as in action post with username and password populated in User bean. (Refreshes the page in case of errors)
+But in case of user registration JQuery ajax post is used to submit the user registration form data as JSON payload to the controller endpoint register method.  (Does not refresh the page in case of errors)
+* I used two ways to show the difference between the two different scenarios 
+
+
+### Validation 
+#### Two validation ways used in mainController
+* First one is using the cutsom validator when the user logs in, using LoginValidator and validating logic defined in validate() mthod 
+* Second way is the auto validate option by using the @Valid on the user parameter. In this case User bean has to define the validation annotaion like @Size(min = 4, max = 12, message = "username.min.max") 
+
+  
+   
+
+
+
 
 
