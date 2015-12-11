@@ -1,4 +1,7 @@
 # GlobantWeb
 ### Globant Code Challenge
-Check out the Wiki page to get an idea on how to run this project in eclipse
+#### JAVA/J2EE Technologies used in this project:
+* Spring
+
+Check out the Wiki page for details
 https://github.com/kaaljabr/GlobantWeb/wiki
