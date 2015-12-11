@@ -11,7 +11,7 @@
      
    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">      
       <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-      <property name="url" value="jdbc:mysql://localhost:3307/globant" />
+      <property name="url" value="jdbc:mysql://localhost:3306/globant" />
       <property name="username" value="root" />
       <property name="password" value="root" />
    </bean>

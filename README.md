@@ -13,7 +13,7 @@
 * Dozer for mapping different bean versions (version 5.5.1)
 
 #### Database used:
-* MySQL DB (version 5.6)
+* MySQL DB (version 5.6), install and create a schema called "globant" (IMPORTANT)
 
 Check out the wiki page for more details on building and running this project [Wiki](https://github.com/kaaljabr/GlobantWeb/wiki)
 
