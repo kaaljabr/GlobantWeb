@@ -50,7 +50,14 @@ Check out the wiki page for more details on building and running this project [W
 
 ### JUnit
 
-I used JUnit to test my service layer methods. And make sure they return the expected result or throw the expected exception. I used autowiring to inject the services I would like to test. Service layer calls DAO layer to do the persistent work.
+* I used JUnit to test my service layer methods. And make sure they return the expected result or throw the expected exception. I used autowiring to inject the services I would like to test. Service layer calls DAO layer to do the persistent work.
+* Test class is TestService.java, you can test by running JUnit test in eclipse. Or by running the maven command "test". Another third way is when executing a build by Maven don't skip the tests. Maven build will be executed to along with the tests.
+* make sure to edit the directory path and files in resources>config.properties  
+```
+test.correct.dir.path=c:\\test_dir
+test.filename=test.txt
+```
+Make sure to create the respective dir and file
 
 ### JSP, JQuery and CSS
 
