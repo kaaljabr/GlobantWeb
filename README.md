@@ -61,7 +61,7 @@ Like when user wants to register a user you click on a tooltip called register w
 ### Posting JSON payload
 * When user logs in to the system the data is sent to the controller by posting the form data as in action post with username and password populated in User bean. (Refreshes the page in case of errors)
 * But in case of user registration JQuery ajax post is used to submit the user registration form data as JSON payload to the controller endpoint register method.  (Does not refresh the page in case of errors)
->I used two ways to show the difference between the two different scenarios 
+####I used two ways to show the difference between the two different scenarios 
 
 
 ### Validation 
@@ -70,7 +70,10 @@ Like when user wants to register a user you click on a tooltip called register w
 * Second way is the auto validate option by using the @Valid on the user parameter. In this case User bean has to define the validation annotaion like @Size(min = 4, max = 12, message = "username.min.max") 
 
   
-   
+### Rest API versioning
+* I used URL version here like rest/v1/users & rest/v2/users. This way is used when there is a requirement to change the current behavior or the type of data returned. But some legacy system is still working on the older version of the data type, and there is no need to change the code on the legacy system side. So we have to provide a new version URL path to reflect the new updates for the new clients. 
+* There is another way to provide the version in the header of the request. I can integrate this kind of versioning but I don't recommend if the rest API is going to be used by public people since they are not aware on how to provide a new attribute in the header of their reuqest.
+* Another header way of doing it is the accept attribute.  
 
 
 
