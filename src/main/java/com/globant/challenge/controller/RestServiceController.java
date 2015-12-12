@@ -2,26 +2,38 @@ package com.globant.challenge.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import javax.validation.Valid;
 
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.globant.challenge.bean.User;
 import com.globant.challenge.exception.ServiceException;
+import com.globant.challenge.exception.UtilsException;
 import com.globant.challenge.rest.UserV1;
 import com.globant.challenge.service.FileService;
 import com.globant.challenge.service.UserService;
+import com.globant.challenge.utils.PasswordManager;
+import com.globant.challenge.validator.LoginValidator;
+import com.globant.challenge.validator.RegisterValidator;
 
 @RestController
 @RequestMapping("/rest")
@@ -34,6 +46,83 @@ public class RestServiceController {
 
 	@Autowired
 	FileService fileService;
+	
+	@Autowired
+	protected MessageSource resource;
+	
+	@Autowired
+	LoginValidator loginValidator;
+	
+	@Autowired
+	RegisterValidator registerValidator;
+
+	/**
+	 * This endpoint validate username and password for a given user when trying to login
+	 * @param user This is the JSON paiload posted to this endpoint
+	 * @param result This is used to validate log in data
+	 * @return Returns a String with the status of the logging in
+	 */
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public ResponseEntity<String> login(@RequestBody User user, BindingResult result){
+		loginValidator.validate(user, result);
+		if (result.hasErrors()) {
+			log.warn("validation fails");
+			StringBuilder sb = new StringBuilder("");
+			for (ObjectError objectError : result.getAllErrors()) {
+				sb.append(resource.getMessage(objectError.getCode(), null, Locale.US));
+				if(result.getAllErrors().indexOf(objectError) != result.getAllErrors().size()-1){
+					sb.append(" | ");	
+				}
+				
+			}
+			return new ResponseEntity<String>("Please provide username and password :( "+sb.toString(),HttpStatus.BAD_REQUEST);
+		} 
+		try {
+			boolean success = usersService.checkLogin(user.getUsername(), PasswordManager.getInstance().encrypt(user.getPassword()));
+			if(success){
+				return new ResponseEntity<String>("Login Succeeds :)",HttpStatus.OK);
+			}else{
+				return new ResponseEntity<String>("Login Fails :(",HttpStatus.OK);
+			}
+		} catch (ServiceException | UtilsException e) {
+			log.error("SYSTEM ERROR occurred", e);
+			return new ResponseEntity<String>("Login Fails ServiceException :( ",HttpStatus.BAD_REQUEST);
+		}				
+	}
+	
+	/**
+	 * This endpoint validate all users properties when trying to register a new user
+	 * @param user This is the JSON paiload posted to this endpoint
+	 * @param result This is used to validate log in data
+	 * @return Returns a String with the status of the resgistraion
+	 */
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<String> register(@RequestBody User user, BindingResult result){
+		registerValidator.validate(user, result);
+		if(result.hasErrors()){
+			log.warn("validation fails");
+			StringBuilder sb = new StringBuilder("");
+			for (ObjectError objectError : result.getAllErrors()) {
+				sb.append(resource.getMessage(objectError.getCode(), null, Locale.US));
+				if(result.getAllErrors().indexOf(objectError) != result.getAllErrors().size()-1){
+					sb.append(" | ");	
+				}
+				
+			}
+			return new ResponseEntity<String>("User Register Fails :( "+sb.toString(),HttpStatus.BAD_REQUEST);
+		}
+		try {
+			 if(usersService.isUsernameTaken(user.getUsername())){
+				 return new ResponseEntity<String>("Username is already registered :(",HttpStatus.BAD_REQUEST);
+			 }
+			 user.setPassword(PasswordManager.getInstance().encrypt(user.getPassword()));
+			 usersService.createUser(user);			
+		} catch (ServiceException | UtilsException e) {
+			log.error("SYSTEM ERROR occurred", e);
+			return new ResponseEntity<String>("User Register Fails :(",HttpStatus.BAD_REQUEST);
+		}			
+		return new ResponseEntity<String>("User Registered Successfully :)",HttpStatus.OK);
+	}
 
 	/**
 	 *

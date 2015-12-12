@@ -46,8 +46,7 @@ public class User implements Serializable {
 	@Size(min = 4, max = 12, message = "username.min.max")
 	private String username;
 	@Column(name = "password")
-	@Size(min = 6, message = "password.min.max")
-	@JsonIgnore
+	@Size(min = 6, message = "password.min.max")	
 	private String password;
 	@Column(name = "state")
 	@Size(min = 1, message = "state.required")

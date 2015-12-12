@@ -30,6 +30,23 @@ public class TestService {
 
 	@Autowired
 	FileService fileService;
+	
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testUserCreation() {
+		try {
+			//persist a new user
+			User user = new User("Fred", PasswordManager.getInstance().encrypt("123456"), "Quality Assurance", "Oklahoma");
+			userService.createUser(user);
+			//make sure user name is persisted
+			boolean usernameTaken = userService.isUsernameTaken(user.getUsername());
+			Assert.assertEquals(usernameTaken, true);
+		} catch (ServiceException | UtilsException e) {
+			Assert.fail(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	@Test
 	@Transactional
@@ -39,7 +56,7 @@ public class TestService {
 		// in the DB
 		try {
 			List<User> users = userService.findAllUsers();
-			Assert.assertEquals(users.size(), 11);
+			Assert.assertEquals(users.size(), 15);
 		} catch (ServiceException e) {
 			Assert.fail(e.getMessage());
 			e.printStackTrace();
@@ -66,7 +83,7 @@ public class TestService {
 	public void testUserLoginFailure() {
 		// test login failure
 		try {
-			boolean success = userService.checkLogin("gerrard", PasswordManager.getInstance().encrypt("123456"));
+			boolean success = userService.checkLogin("kareem", PasswordManager.getInstance().encrypt("654321"));
 			Assert.assertFalse(success);
 		} catch (ServiceException | UtilsException e) {
 			Assert.fail(e.getMessage());
@@ -94,7 +111,7 @@ public class TestService {
 	public void testUsernameIsNotTaken() {
 		// make sure username is not taken
 		try {
-			boolean taken = userService.isUsernameTaken("ronaldo");
+			boolean taken = userService.isUsernameTaken("roberto");
 			Assert.assertFalse(taken);
 		} catch (ServiceException e) {
 			Assert.fail(e.getMessage());
@@ -139,7 +156,7 @@ public class TestService {
 		// second page is walter
 		try {
 			List<User> users = userService.findAllUsers(2, 3);
-			Assert.assertEquals(users.get(0).getUsername(), "walter");
+			Assert.assertEquals(users.get(0).getUsername(), "ronaldo");
 		} catch (ServiceException e) {
 			Assert.fail(e.getMessage());
 			e.printStackTrace();

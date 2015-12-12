@@ -74,7 +74,7 @@ public class MainController {
 	 * @param user
 	 *            JSON payload submitted using form submit with action attribute from the front end.
 	 * @param result
-	 *            this is used to validate login data
+	 *            This is used to validate login data
 	 *
 	 * @return next view after a successful log in or the login page again with error messages
 	 */
@@ -113,7 +113,7 @@ public class MainController {
 	 * @param user
 	 *            JSON payload submitted by an AJAX request to this endpoint
 	 * @param result
-	 *            this is used to validate login data
+	 *            This is used to validate registration data
 	 *
 	 * @return a response body with success string if user passes validation
 	 */
